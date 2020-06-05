@@ -39,16 +39,16 @@ func (s *serialServer) Serve() {
 	deviceReader := bufio.NewReader(s.device)
 	for {
 		char, err := deviceReader.ReadByte()
+		if err == io.EOF {
+			s.logger.Println(fmt.Errorf("Got EOF. Stoping serve."))
+			break
+		}
 		if err != nil {
 			s.logger.Println(fmt.Errorf("Can not read byte: %w", err))
 			continue
 		}
-		if err == io.EOF {
-			break
-		}
 		s.buf.Add(char)
 		if s.buf.Match(protocol.START) {
-			s.logger.Println("Got start")
 		}
 	}
 }

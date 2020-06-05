@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	ErrOpenDevice = errors.New("can not open tty")
+	ErrOpenDevice = errors.New("Can not open TTY.")
 )
 
 func main() {
