@@ -17,17 +17,18 @@ type noopLogger struct{}
 func (l noopLogger) Println(v ...interface{}) {}
 
 type serialServer struct {
-	device io.Reader
-	data   []byte
-	logger Logger
-	buf    *ring.Ring
+	device  io.Reader
+	data    []byte
+	logger  Logger
+	cmd     *ring.Ring
+	session bool
 }
 
 func New(opts ...ServerOption) (ss *serialServer) {
 	ss = &serialServer{
 		data:   make([]byte, 0, 16),
 		logger: &noopLogger{},
-		buf:    ring.New(),
+		cmd:    ring.New(),
 	}
 	for _, opt := range opts {
 		opt(ss)
@@ -47,8 +48,15 @@ func (s *serialServer) Serve() {
 			s.logger.Println(fmt.Errorf("Can not read byte: %w", err))
 			continue
 		}
-		s.buf.Add(char)
-		if s.buf.Match(protocol.START) {
+		if s.session {
+			s.data = append(s.data, char)
+		}
+		s.cmd.Add(char)
+		if !s.session && s.cmd.Match(protocol.START) {
+			s.session = true
+		}
+		if s.session && s.cmd.Match(protocol.END) {
+			s.session = false
 		}
 	}
 }
