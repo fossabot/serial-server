@@ -1,7 +1,9 @@
 package server
 
 import (
+	"bufio"
 	"encoding/binary"
+	"fmt"
 	"hash/crc32"
 	"io"
 	"ivan/serial-server/internal/ring"
@@ -9,9 +11,10 @@ import (
 )
 
 type serialServer struct {
-	device  io.ReadWriter
+	device io.ReadWriter
+	logger Logger
+
 	data    []byte
-	logger  Logger
 	cmd     *ring.Ring
 	session bool
 }
@@ -47,5 +50,25 @@ func (s serialServer) Test(data []uint8) {
 }
 
 func (s serialServer) Serve() {
-	s.Test([]uint8("test!"))
+	s.CommandListener()
+}
+
+func (s serialServer) CommandListener() {
+	deviceReader := bufio.NewReader(s.device)
+	for {
+		char, err := deviceReader.ReadByte()
+		if err == io.EOF {
+			s.logger.Println(fmt.Errorf("got: %w", io.EOF))
+			break
+		}
+		if char == 0 && err != nil {
+			s.logger.Println(fmt.Errorf("got %x: %w", char, err))
+			break
+		}
+		if err != nil {
+			s.logger.Println(fmt.Errorf("skip: %w", err))
+			continue
+		}
+		s.cmd.Add(char)
+	}
 }
