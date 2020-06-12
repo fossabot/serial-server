@@ -2,7 +2,9 @@ package server
 
 import (
 	"bufio"
+	"encoding/binary"
 	"fmt"
+	"hash/crc32"
 	"io"
 	"ivan/serial-server/internal/ring"
 	"ivan/serial-server/protocol"
@@ -36,6 +38,10 @@ func New(opts ...ServerOption) (ss *serialServer) {
 	return
 }
 
+func (s serialServer) checksum() bool {
+	return crc32.ChecksumIEEE(s.data[4:]) == binary.BigEndian.Uint32(s.data[:4])
+}
+
 func (s *serialServer) Serve() {
 	deviceReader := bufio.NewReader(s.device)
 	for {
@@ -57,6 +63,12 @@ func (s *serialServer) Serve() {
 		}
 		if s.session && s.cmd.Match(protocol.END) {
 			s.session = false
+			s.data = s.data[:len(s.data)-4]
+			if !s.checksum() {
+				s.logger.Println("Got corrupted data.")
+			}
 		}
+		fmt.Printf("%x\n", char)
 	}
+	fmt.Printf("%x, %x, %s\n", s.data[:4], s.data[4:], s.data[4:])
 }
