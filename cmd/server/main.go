@@ -28,5 +28,5 @@ func main() {
 	)
 	server := server.New(defaultOptions)
 
-	server.Serve()
+	server.ListenAndServe()
 }
