@@ -2,7 +2,7 @@ package ring
 
 import "testing"
 
-func TestAdd(t *testing.T) {
+func TestRing_Add(t *testing.T) {
 	t.Run("Add 2 values", func(t *testing.T) {
 		ring := New()
 		ring.Add(byte('a'))
@@ -57,7 +57,7 @@ func TestAdd(t *testing.T) {
 	})
 }
 
-func TestMatch(t *testing.T) {
+func TestRing_Match(t *testing.T) {
 	ring := New()
 	ring.Add(byte('a'))
 	ring.Add(byte('b'))
