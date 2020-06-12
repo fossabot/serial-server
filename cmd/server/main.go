@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	ErrOpenDevice = errors.New("Can not open TTY.")
+	ErrOpenDevice = errors.New("can not open tty")
 )
 
 func main() {
