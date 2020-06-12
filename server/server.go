@@ -8,14 +8,6 @@ import (
 	"ivan/serial-server/protocol"
 )
 
-type Logger interface {
-	Println(v ...interface{})
-}
-
-type noopLogger struct{}
-
-func (l noopLogger) Println(v ...interface{}) {}
-
 type serialServer struct {
 	device  io.ReadWriter
 	data    []byte
@@ -42,7 +34,7 @@ func (s serialServer) checksum() bool {
 
 func (s serialServer) send(command [4]uint8, data ...uint8) {
 	if _, err := s.device.Write(append(command[:], data...)); err != nil {
-		s.logger.Println("Can not send", data)
+		s.logger.Printf("Can not send. Command: %x. Data: %q.", command, data)
 	}
 }
 
