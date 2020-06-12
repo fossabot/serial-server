@@ -14,7 +14,7 @@ func Options(opts ...ServerOption) ServerOption {
 	}
 }
 
-func Device(reader io.Reader) ServerOption {
+func Device(reader io.ReadWriter) ServerOption {
 	return func(s *serialServer) {
 		s.device = reader
 	}
