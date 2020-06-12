@@ -5,6 +5,8 @@ import (
 	"ivan/serial-server/server"
 	"log"
 	"os"
+
+	"github.com/pkg/term"
 )
 
 var (
@@ -14,7 +16,7 @@ var (
 func main() {
 	logger := log.New(os.Stderr, "serial-server ", log.LstdFlags)
 
-	tty, err := os.Open("/dev/pts/2")
+	tty, err := term.Open("/dev/pts/1", term.Speed(115200))
 	if err != nil {
 		logger.Fatalln(ErrOpenDevice)
 	}
