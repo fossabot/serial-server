@@ -62,9 +62,7 @@ func (s serialServer) ListenAndServe() {
 		s.cmd.Add(char)
 		s.dispatchCommand()
 		if s.session {
-			go func() {
-				s.data <- char
-			}()
+			s.data <- char
 		}
 	}
 }
