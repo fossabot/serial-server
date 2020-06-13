@@ -1,11 +1,12 @@
 package ring
 
-import "bytes"
-
-const RING_SIZE uint8 = 4
+import (
+	"bytes"
+	"ivan/serial-server/protocol"
+)
 
 type Ring struct {
-	buf  [RING_SIZE]byte
+	buf  [protocol.CMD_SIZE]byte
 	head uint8
 	tail uint8
 	max  uint8
@@ -14,7 +15,7 @@ type Ring struct {
 
 func New() *Ring {
 	return &Ring{
-		max: RING_SIZE,
+		max: protocol.CMD_SIZE,
 	}
 }
 
@@ -31,6 +32,6 @@ func (r *Ring) moveForward() {
 	r.full = r.head == r.tail
 }
 
-func (r *Ring) Match(data [RING_SIZE]byte) bool {
+func (r *Ring) Match(data [protocol.CMD_SIZE]byte) bool {
 	return bytes.Equal(r.buf[:], data[:])
 }
