@@ -36,7 +36,9 @@ func (sm sessionManager) Active() bool {
 }
 
 func (sm sessionManager) Add(char uint8) {
-	sm.data <- char
+	if sm.Active() {
+		sm.data <- char
+	}
 }
 
 func (sm sessionManager) Drain() {

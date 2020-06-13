@@ -28,5 +28,6 @@ func main() {
 	)
 	server := server.New(defaultOptions)
 
+	go server.Drain()
 	server.ListenAndServe()
 }

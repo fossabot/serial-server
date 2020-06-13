@@ -43,7 +43,6 @@ func (s serialServer) Task(data []uint8) {
 }
 
 func (s serialServer) ListenAndServe() {
-	go s.Drain()
 	deviceReader := bufio.NewReader(s.device)
 	for {
 		char, err := deviceReader.ReadByte()
@@ -59,9 +58,7 @@ func (s serialServer) ListenAndServe() {
 			s.logger.Println(fmt.Errorf("skip: %w", err))
 			continue
 		}
-		if s.Active() {
-			s.Add(char)
-		}
+		s.Add(char)
 		s.cmd.Add(char)
 		if !s.Active() && s.cmd.Match(protocol.START) ||
 			s.Active() && s.cmd.Match(protocol.END) {
