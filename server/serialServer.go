@@ -1,12 +1,12 @@
 package server
 
 import (
+	"aded175/serial-server/internal/ring"
+	"aded175/serial-server/protocol"
+	"aded175/serial-server/session"
 	"bufio"
 	"fmt"
 	"io"
-	"ivan/serial-server/internal/ring"
-	"ivan/serial-server/protocol"
-	"ivan/serial-server/session"
 )
 
 type serialServer struct {

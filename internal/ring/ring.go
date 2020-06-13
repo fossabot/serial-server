@@ -1,8 +1,8 @@
 package ring
 
 import (
+	"aded175/serial-server/protocol"
 	"bytes"
-	"ivan/serial-server/protocol"
 )
 
 type Ring struct {

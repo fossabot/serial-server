@@ -1,4 +1,4 @@
-module ivan/serial-server
+module aded175/serial-server
 
 go 1.14
 
