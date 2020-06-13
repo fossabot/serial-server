@@ -4,9 +4,9 @@ import (
 	"io"
 )
 
-type ServerOption func(s *serialServer)
+type serverOption func(s *serialServer)
 
-func Options(opts ...ServerOption) ServerOption {
+func Options(opts ...serverOption) serverOption {
 	return func(s *serialServer) {
 		for _, opt := range opts {
 			opt(s)
@@ -14,13 +14,13 @@ func Options(opts ...ServerOption) ServerOption {
 	}
 }
 
-func Device(reader io.ReadWriter) ServerOption {
+func Device(dev io.ReadWriter) serverOption {
 	return func(s *serialServer) {
-		s.device = reader
+		s.device = dev
 	}
 }
 
-func WithLogger(logger Logger) ServerOption {
+func WithLogger(logger Logger) serverOption {
 	return func(s *serialServer) {
 		s.logger = logger
 	}

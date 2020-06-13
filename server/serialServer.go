@@ -6,21 +6,21 @@ import (
 	"io"
 	"ivan/serial-server/internal/ring"
 	"ivan/serial-server/protocol"
+	"ivan/serial-server/session"
 )
 
 type serialServer struct {
-	device  io.ReadWriter
-	logger  Logger
-	cmd     *ring.Ring
-	session bool
-	data    chan byte
+	device io.ReadWriter
+	logger Logger
+	cmd    *ring.Ring
+	session.SessionManager
 }
 
-func New(opts ...ServerOption) (ss *serialServer) {
+func New(opts ...serverOption) (ss *serialServer) {
 	ss = &serialServer{
-		logger: &noopLogger{},
-		cmd:    ring.New(),
-		data:   make(chan byte),
+		logger:         &noopLogger{},
+		cmd:            ring.New(),
+		SessionManager: session.New(),
 	}
 	for _, opt := range opts {
 		opt(ss)
@@ -43,7 +43,7 @@ func (s serialServer) Task(data []uint8) {
 }
 
 func (s serialServer) ListenAndServe() {
-	go s.dispatchData()
+	go s.Drain()
 	deviceReader := bufio.NewReader(s.device)
 	for {
 		char, err := deviceReader.ReadByte()
@@ -59,28 +59,13 @@ func (s serialServer) ListenAndServe() {
 			s.logger.Println(fmt.Errorf("skip: %w", err))
 			continue
 		}
-		s.cmd.Add(char)
-		s.dispatchCommand()
-		if s.session {
-			s.data <- char
+		if s.Active() {
+			s.Add(char)
 		}
-	}
-}
-
-func (s *serialServer) dispatchCommand() {
-	if s.cmd.Match(protocol.PONG) {
-	}
-	if !s.session && s.cmd.Match(protocol.START) {
-		s.session = true
-	}
-	if s.session && s.cmd.Match(protocol.END) {
-		s.session = false
-	}
-}
-
-func (s serialServer) dispatchData() {
-	for {
-		c := <-s.data
-		fmt.Printf("%x: %c\n", c, c)
+		s.cmd.Add(char)
+		if !s.Active() && s.cmd.Match(protocol.START) ||
+			s.Active() && s.cmd.Match(protocol.END) {
+			s.Toggle()
+		}
 	}
 }
