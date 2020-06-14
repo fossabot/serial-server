@@ -1,7 +1,7 @@
 package server
 
 import (
-	"Aded175/serial-server/protocol"
+	"aded175/serial-server/protocol"
 	"bytes"
 	"testing"
 )
