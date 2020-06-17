@@ -1,4 +1,4 @@
-package protocol
+package conversation
 
 const CMD_SIZE uint8 = 4
 

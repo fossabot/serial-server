@@ -1,7 +1,7 @@
 package server
 
 import (
-	"aded175/serial-server/protocol"
+	"aded175/serial-server/conversation"
 	"bytes"
 	"testing"
 )
@@ -20,7 +20,7 @@ func TestSerialServer_send(t *testing.T) {
 func TestSerialServer_Ping(t *testing.T) {
 	var stub bytes.Buffer
 	s := &serialServer{device: &stub}
-	expected := protocol.PING[:]
+	expected := conversation.PING[:]
 	s.Ping()
 	if !bytes.Equal(stub.Bytes(), expected) {
 		t.Error("actually:", stub.Bytes(), "expected:", expected)
@@ -31,7 +31,7 @@ func TestSerialServer_Task(t *testing.T) {
 	var stub bytes.Buffer
 	s := &serialServer{device: &stub}
 	data := []uint8{'t', 'e', 's', 't'}
-	expected := append(protocol.TASK[:], []uint8{'t', 'e', 's', 't'}...)
+	expected := append(conversation.TASK[:], []uint8{'t', 'e', 's', 't'}...)
 	s.Task(data)
 	if !bytes.Equal(stub.Bytes(), expected) {
 		t.Error("actually:", stub.Bytes(), "expected:", expected)

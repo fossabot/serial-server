@@ -3,7 +3,6 @@ package server
 import (
 	"aded175/serial-server/conversation"
 	"aded175/serial-server/internal/ring"
-	"aded175/serial-server/protocol"
 	"bufio"
 	"fmt"
 	"io"
@@ -35,11 +34,11 @@ func (s serialServer) send(command [4]uint8, data ...uint8) {
 }
 
 func (s serialServer) Ping() {
-	s.send(protocol.PING)
+	s.send(conversation.PING)
 }
 
 func (s serialServer) Task(data []uint8) {
-	s.send(protocol.TASK, data...)
+	s.send(conversation.TASK, data...)
 }
 
 func (s serialServer) ListenAndServe() {
@@ -60,8 +59,8 @@ func (s serialServer) ListenAndServe() {
 		}
 		s.Add(char)
 		s.cmd.Add(char)
-		if !s.Active() && s.cmd.Match(protocol.START) ||
-			s.Active() && s.cmd.Match(protocol.END) {
+		if !s.Active() && s.cmd.Match(conversation.START) ||
+			s.Active() && s.cmd.Match(conversation.END) {
 			s.Toggle()
 		}
 	}

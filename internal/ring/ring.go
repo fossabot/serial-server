@@ -1,12 +1,12 @@
 package ring
 
 import (
-	"aded175/serial-server/protocol"
+	"aded175/serial-server/conversation"
 	"bytes"
 )
 
 type Ring struct {
-	buf  [protocol.CMD_SIZE]byte
+	buf  [conversation.CMD_SIZE]byte
 	head uint8
 	tail uint8
 	max  uint8
@@ -15,7 +15,7 @@ type Ring struct {
 
 func New() *Ring {
 	return &Ring{
-		max: protocol.CMD_SIZE,
+		max: conversation.CMD_SIZE,
 	}
 }
 
@@ -32,6 +32,6 @@ func (r *Ring) moveForward() {
 	r.full = r.head == r.tail
 }
 
-func (r *Ring) Match(data [protocol.CMD_SIZE]byte) bool {
+func (r *Ring) Match(data [conversation.CMD_SIZE]byte) bool {
 	return bytes.Equal(r.buf[:], data[:])
 }
