@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aded175/serial-server/cmd/server/config"
 	"aded175/serial-server/server"
 	"errors"
 	"log"
@@ -14,9 +15,10 @@ var (
 )
 
 func main() {
+	cfg := config.FromFlags()
 	logger := log.New(os.Stderr, "serial-server ", log.LstdFlags)
 
-	tty, err := term.Open("/dev/pts/1", term.Speed(115200))
+	tty, err := term.Open(cfg.Device, term.Speed(cfg.BaudRate))
 	if err != nil {
 		logger.Fatalln(ErrOpenDevice)
 	}
