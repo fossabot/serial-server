@@ -1,8 +1,8 @@
-package session
+package conversation
 
 import "fmt"
 
-type SessionManager interface {
+type ConversationManager interface {
 	// Toggle session state
 	Toggle()
 	// Check is session active or not
@@ -12,36 +12,36 @@ type SessionManager interface {
 	Drain()
 }
 
-type sessionManager struct {
+type conversationManager struct {
 	active bool
 	data   chan uint8
 }
 
-func New() SessionManager {
-	return &sessionManager{
+func New() ConversationManager {
+	return &conversationManager{
 		data: make(chan uint8),
 	}
 }
 
-func (sm sessionManager) Close() {
+func (sm conversationManager) Close() {
 	close(sm.data)
 }
 
-func (sm *sessionManager) Toggle() {
+func (sm *conversationManager) Toggle() {
 	sm.active = !sm.active
 }
 
-func (sm sessionManager) Active() bool {
+func (sm conversationManager) Active() bool {
 	return sm.active
 }
 
-func (sm sessionManager) Add(char uint8) {
+func (sm conversationManager) Add(char uint8) {
 	if sm.Active() {
 		sm.data <- char
 	}
 }
 
-func (sm sessionManager) Drain() {
+func (sm conversationManager) Drain() {
 	for {
 		c := <-sm.data
 		fmt.Printf("%x: %c\n", c, c)

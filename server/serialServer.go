@@ -1,9 +1,9 @@
 package server
 
 import (
+	"aded175/serial-server/conversation"
 	"aded175/serial-server/internal/ring"
 	"aded175/serial-server/protocol"
-	"aded175/serial-server/session"
 	"bufio"
 	"fmt"
 	"io"
@@ -13,14 +13,14 @@ type serialServer struct {
 	device io.ReadWriter
 	logger Logger
 	cmd    *ring.Ring
-	session.SessionManager
+	conversation.ConversationManager
 }
 
 func New(opts ...serverOption) (ss *serialServer) {
 	ss = &serialServer{
-		logger:         &noopLogger{},
-		cmd:            ring.New(),
-		SessionManager: session.New(),
+		logger:              &noopLogger{},
+		cmd:                 ring.New(),
+		ConversationManager: conversation.New(),
 	}
 	for _, opt := range opts {
 		opt(ss)
