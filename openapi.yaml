@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: serial-server
+  version: 1.0.0
+  
+paths:
+  /tasks:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        200:
+          description: task accepted
+
+components:
+  schemas:
+    Pair:
+      type: object
+      required:
+        - pin
+        - pinState
+      properties:
+        pin:
+          type: string
+        pinState:
+          type: string
+
+    Task:
+      type: object
+      required:
+        - block
+        - config
+      properties:
+        block:
+          type: string
+        config:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pair"

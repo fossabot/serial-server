@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 127.0.0.1:80:8080
+    volumes:
+      - ./openapi.yaml:/openapi.yaml
+    environment:
+      SWAGGER_JSON: /openapi.yaml
+      URL: http://127.0.0.1/openapi.yaml
