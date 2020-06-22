@@ -6,13 +6,13 @@ import (
 	"hash/crc32"
 )
 
-type Pin uint64
+type Pin uint32
 
 type PinState uint8
 
 const (
-	PIN_A Pin = 0x1000000000
-	PIN_B Pin = 0x1100000000
+	PIN_A Pin = 0x10000000
+	PIN_B Pin = 0x11000000
 )
 
 const (
