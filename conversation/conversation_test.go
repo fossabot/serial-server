@@ -16,5 +16,5 @@ func ExampleConversation_Marshal() {
 	bytes, _ := conv.Marshal()
 	fmt.Printf("%X\n", bytes)
 	//Output:
-	//000000000000001001DBCC3669
+	//0000001001FBE7D5DA
 }
