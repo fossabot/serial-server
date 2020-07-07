@@ -7,8 +7,8 @@ type port struct {
 	ospeedr     Ospeedr
 	pupdr       Pupdr
 	idr         Idr
-	odr         uint32
-	bssr        uint32
+	odr         Odr
+	bssr        Bsrr
 	lckr        uint32
 	afrl        uint32
 	afrh        uint32
