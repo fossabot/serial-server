@@ -3,8 +3,8 @@ package gpio
 type port struct {
 	baseAddress uint32
 	moder       Moder
-	otyper      uint32
-	ospeedr     uint32
+	otyper      Otyper
+	ospeedr     Ospeedr
 	pupdr       uint32
 	idr         uint32
 	odr         uint32
