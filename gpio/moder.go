@@ -1,5 +1,9 @@
 package gpio
 
+import "errors"
+
+var ErrPinNotExists = errors.New("pin does not exists")
+
 type moderState uint8
 
 const (
