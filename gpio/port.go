@@ -5,7 +5,7 @@ type port struct {
 	moder       Moder
 	otyper      Otyper
 	ospeedr     Ospeedr
-	pupdr       uint32
+	pupdr       Pupdr
 	idr         uint32
 	odr         uint32
 	bssr        uint32
