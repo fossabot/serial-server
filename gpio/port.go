@@ -9,9 +9,9 @@ type port struct {
 	idr         Idr
 	odr         Odr
 	bssr        Bsrr
-	lckr        uint32
-	afrl        uint32
-	afrh        uint32
+	lckr        Lckr
+	afrl        Afrl
+	afrh        Afrh
 }
 
 const (
