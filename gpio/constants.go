@@ -1,20 +1,27 @@
 package gpio
 
-// Address offset: 0x00
+type moderState uint8
+
 const (
-	MODE_INPUT  = 0b00 // Input (reset state)
-	MODE_OUTPUT = 0b01 // General purpose output mode
-	MODE_ALTFUN = 0b10 // Alternate function mode
-	MODE_ANALOG = 0b11 // Analog mode
+	MODE_INPUT  moderState = 0b00 // Input (reset state)
+	MODE_OUTPUT moderState = 0b01 // General purpose output mode
+	MODE_ALTFUN moderState = 0b10 // Alternate function mode
+	MODE_ANALOG moderState = 0b11 // Analog mode
 )
 
-// Address offset: 0x04
+const (
+	MODE_RESET_A uint32 = 0xA800_0000
+	MODE_RESET_B uint32 = 0x0280
+	MODE_RESET   uint32 = 0
+)
+
+const MODE_PIN_SIZE uint8 = 2
+
 const (
 	OTYPE_PUSHPULL  = 0b00 // Output push-pull (reset state)
 	OTYPE_OPENDRAIN = 0b01 // Output open-drain
 )
 
-// Address offset: 0x08
 const (
 	OSPEED_LOW      = 0b00 // Low speed
 	OSPEED_MEDIUM   = 0b01 // Medium speed
@@ -22,7 +29,6 @@ const (
 	OSPEED_VERYHIGH = 0b11 // Very high speed
 )
 
-// Address offset: 0x0C
 const (
 	PUPD_NOPULLUP = 0b00 // No pull-up, pull-down
 	PUPD_PULLUP   = 0b01 // Pull-up
@@ -30,7 +36,6 @@ const (
 	PUPD_RESERVED = 0b11 // Reserved
 )
 
-// Address offset: 0x18
 const (
 	BSR_NOACTION = 0b00 // No action on the corresponding ODRx bit
 	BSR_SET      = 0b01 // Resets the corresponding ODRx bit
