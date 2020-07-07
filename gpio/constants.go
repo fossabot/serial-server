@@ -1,5 +1,7 @@
 package gpio
 
+import "errors"
+
 type moderState uint8
 
 const (
@@ -17,10 +19,14 @@ const (
 
 const MODE_PIN_SIZE uint8 = 2
 
+type otyperState uint8
+
 const (
-	OTYPE_PUSHPULL  = 0b00 // Output push-pull (reset state)
-	OTYPE_OPENDRAIN = 0b01 // Output open-drain
+	OTYPE_PUSHPULL  otyperState = 0b00 // Output push-pull (reset state)
+	OTYPE_OPENDRAIN otyperState = 0b01 // Output open-drain
 )
+
+const OTYPE_RESET uint32 = 0
 
 const (
 	OSPEED_LOW      = 0b00 // Low speed
@@ -40,3 +46,5 @@ const (
 	BSR_NOACTION = 0b00 // No action on the corresponding ODRx bit
 	BSR_SET      = 0b01 // Resets the corresponding ODRx bit
 )
+
+var ErrPinNotExists = errors.New("pin does not exists")
