@@ -14,9 +14,9 @@ const (
 )
 
 const (
-	MODE_RESET_A uint32 = 0xA800_0000
-	MODE_RESET_B uint32 = 0x0280
-	MODE_RESET   uint32 = 0
+	MODER_RESET_A uint32 = 0xA800_0000
+	MODER_RESET_B uint32 = 0x0280
+	MODER_RESET   uint32 = 0
 )
 
 const MODE_PIN_SIZE uint8 = 2

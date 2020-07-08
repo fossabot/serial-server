@@ -7,7 +7,7 @@ const (
 	OTYPE_OPENDRAIN otyperState = 0b01 // Output open-drain
 )
 
-const OTYPE_RESET uint32 = 0
+const OTYPER_RESET uint32 = 0
 
 type Otyper uint32
 

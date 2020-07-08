@@ -3,7 +3,7 @@ package gpio
 import "testing"
 
 func TestModer_Set(t *testing.T) {
-	var testModer = Moder(MODE_RESET)
+	var testModer = Moder(MODER_RESET)
 	testModer.Set(3, MODE_OUTPUT)
 	if uint32(testModer) != 0b01_00_00_00 {
 		t.Error("set incorrect")
